@@ -1,0 +1,8 @@
+# anima bun 配置。
+# preload: 每次 bun 运行（run / 直接执行 / test）先挂 sharp 桩——@huggingface/transformers
+# 静态 import sharp 处理图片，而 anima 只做文本 embedding、永不碰图片，且 sharp 原生库在 bun
+# 全局缓存软链布局下会崩。详见 src/stub-sharp.ts。
+preload = ["./src/stub-sharp.ts"]
+
+[test]
+preload = ["./src/stub-sharp.ts"]
