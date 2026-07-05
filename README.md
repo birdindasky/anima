@@ -1,4 +1,14 @@
-# anima
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-C-dark.svg">
+  <img alt="anima — your AI keeps a diary you can read" src="assets/banner-C-light.svg">
+</picture>
+
+![License](https://img.shields.io/badge/license-MIT-B8492F?style=flat-square&labelColor=7D3320&logoColor=F0E6D2)
+![Platform](https://img.shields.io/badge/platform-macOS-B8492F?style=flat-square&labelColor=7D3320&logo=apple&logoColor=F0E6D2)
+![Runtime](https://img.shields.io/badge/runtime-bun-B8492F?style=flat-square&labelColor=7D3320&logo=bun&logoColor=F0E6D2)
+![Tests](https://img.shields.io/badge/tests-1000%2B%20passing-B8492F?style=flat-square&labelColor=7D3320)
+
+English · [中文](README.zh-CN.md)
 
 **Memory, moods, and a growable personality for Claude Code. Your AI keeps a diary — and you can read it.**
 
