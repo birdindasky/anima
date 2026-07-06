@@ -22,6 +22,15 @@ command -v claude >/dev/null 2>&1 || die "Claude Code CLI not found — anima is
 BUN_BIN="$(command -v bun)"
 BUN_DIR="$(dirname "$BUN_BIN")"
 
+# ── 1b. full disclosure before touching anything ─────────────
+say "this install will:"
+say "  • register 3 Claude Code hooks, an MCP server (recall/bookmark) and the /mood skill"
+say "  • schedule a nightly digest via launchd (~2:00 AM local)"
+say "  • download a local embedding model — one-time, ~400 MB → ~/.claude/anima/models"
+say "  • keep all data in ~/.claude/anima; uninstall.sh reverses everything"
+say "starting in 3 seconds — Ctrl-C to abort…"
+sleep 3
+
 # ── 2. get the code ──────────────────────────────────────────
 if [[ -f "${BASH_SOURCE[0]:-}" ]] && [[ -d "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/src" ]]; then
   # running from a local checkout — install in place
