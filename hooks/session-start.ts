@@ -1,6 +1,6 @@
 // SessionStart 钩子（正式版，注入开）：立即组装注入（stdout 即上下文）。永不阻塞开工。
 // 纪律（事故 2026-06-12 后）：hook 绝不拉起后台消化——发现积压只如实报告，
-// 消化由 launchd（03:30）或用户手动 bun scripts/digest.ts 跑。
+// 消化由 launchd（02:00,补跑 04/06/08）或用户手动 bun scripts/digest.ts 跑。
 import { openAnima } from "../src/index";
 import { prepareSessionStart } from "../src/sessionStart";
 import { recordHookFailure, recordHookSuccess } from "../src/hookHealth";

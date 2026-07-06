@@ -60,6 +60,19 @@ That's it. The installer registers three Claude Code hooks, an MCP server (`reca
 
 **Cost heads-up before you install:** capture and search are fully local, but the nightly digestion talks to Anthropic's cloud through your existing Claude subscription (`claude -p`, Haiku) — no extra account, no third party, but not free-as-in-offline either. Details in [Honest limitations](#honest-limitations-read-before-installing).
 
+## Your first 24 hours
+
+anima's value arrives after one night's sleep — here's the timeline, so the quiet first day doesn't fool you:
+
+| when | what happens |
+|---|---|
+| right after install | open a new session — Claude itself tells you anima is live and capturing |
+| during the day | sessions are captured locally, milliseconds per turn; `/mood` already works |
+| ~2:00 AM tonight | first nightly digest: today becomes first-person memories + the first diary entry |
+| tomorrow morning | sessions open with a memory pack — ask *"what did we do yesterday?"* and it answers |
+
+Not sure it's working? `cd ~/.claude/anima/app && bun scripts/whoami.ts` prints machine-read truth about its own state (heads-up: whoami output is currently Chinese, like the code comments — translation PRs welcome).
+
 ## How it works
 
 In one sentence: while you work it takes quick local notes in milliseconds, and the real thinking happens on the night shift.

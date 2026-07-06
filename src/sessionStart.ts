@@ -5,7 +5,22 @@
 import type { Database } from "bun:sqlite";
 import { systemClock, type Clock } from "./clock";
 import { getDigestStages, nightOf } from "./digest";
+import { ANIMA_CONTEXT_CLOSE, ANIMA_CONTEXT_OPEN } from "./echo";
 import { assembleMorningInjection, type InjectionResult } from "./inject";
+
+// 首会话欢迎简报(引导设置流程):全新安装的库里零经历,晨间注入必然为空 → 装完 24 小时
+// 内产品完全隐形,用户以为没装上(2026-07-06 用户点名的流失点)。库空时改注入这段给
+// Claude 的简报,让它主动告诉用户 anima 已上线、今晚消化、明早见效。
+// 包在 anima-context 标记里 → stripEcho 会在采集侧剥掉,不会被记成"记忆"。
+// 静态样板不是记忆,不记 injection_log(那是记忆注入的台账)。
+const FIRST_RUN_WELCOME = `${ANIMA_CONTEXT_OPEN}
+anima — first session after install. No memories exist yet; that is expected:
+- This session is being captured locally right now (every turn, secrets scrubbed before disk).
+- Tonight around 2:00 AM local, the nightly digest turns today into first-person memories.
+- From tomorrow morning, every session opens with a memory pack: recent days, this project's decisions, corrections, preferences.
+- /mood works now (read-only mood panel). The diary appears at ~/.claude/anima/diary/ after the first night.
+Briefly let the user know anima is live and capturing, and that memories arrive tomorrow morning — one or two plain sentences, no ceremony.
+${ANIMA_CONTEXT_CLOSE}`;
 
 export interface PrepareSessionStartOptions {
   sessionId: string;
@@ -50,6 +65,15 @@ export function prepareSessionStart(
     clock,
     budget: opts.budget,
   });
+
+  // 全新安装:库里一条经历都没有(含已作废——有过任何一条都不算首装)→ 欢迎简报。
+  // EXISTS 是 O(1),不给热路径添秤砣。首夜消化产出第一条经历后自然退场,无需状态位。
+  const hasAnyExperience = (
+    db.query("SELECT EXISTS(SELECT 1 FROM experiences) e").get() as { e: number }
+  ).e;
+  if (!hasAnyExperience) {
+    return { ...injection, text: FIRST_RUN_WELCOME, digestionSpawned };
+  }
 
   return { ...injection, digestionSpawned };
 }
